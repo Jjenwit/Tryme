@@ -18,24 +18,37 @@
         <a class="nav-link" href="#">Suggestions</a>
       </div>
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="#"><i class="bi bi-bell-fill"></i> Notifications</a>
+        <a class="nav-link" href="#"
+          ><i class="bi bi-bell-fill"></i> Notifications</a
+        >
         <a class="nav-link" href="#">Signup</a>
         <a class="nav-link" href="#">Login</a>
       </div>
     </div>
-    <div class="row container-fluid mb-2">
-      <a class="navbar-brand text-end col-3 fs-1 mb-2" href="/">Tryme</a>
-      <div class="col-12 col-md-6 my-auto">
-          <form class="my-auto input-group collapse navbar-collapse" id="navLinks">
+    <div class="container-fluid mb-2">
+      <div class="row">
+        <div class="col-3 text-end mb-2">
+          <a class="navbar-brand fs-1" href="/">Tryme</a>
+        </div>
+        <div class="col-6 my-auto">
+          <form class="input-group collapse navbar-collapse" id="navLinks">
             <input
               class="form-control bg-white"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+            <button class="btn btn-secondary" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+        </div>
+        <div class="col-3 text-center mt-2">
+          <a href="/cart">
+            <i class="bi bi-bag text-light fs-2"></i>
+          </a>
+        </div>
       </div>
-      </form>
     </div>
   </div>
 </nav>
