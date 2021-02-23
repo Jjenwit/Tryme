@@ -30,7 +30,8 @@ app.get('/', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
   const product = await Product.findById(id);
-  res.render('details', { ...product });
+  console.log(product);
+  res.render('details', { product });
 });
 
 port = 3000;
