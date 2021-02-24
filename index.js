@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const Product = require('./models/product');
 const engine = require('ejs-mate');
+const session = require('express-session');
 
 const app = express();
 
@@ -17,13 +18,29 @@ db.once('open', function () {
   console.log('connected to database');
 });
 
+app.use(
+  session({
+    name: 'trymecookie',
+    secret: 'have to change this',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('ejs', engine);
 
+app.use(function (req, res, next) {
+  res.locals.session = session;
+  next();
+});
+
 app.get('/', async (req, res) => {
   const products = await Product.find({});
+  console.log(req.cookies);
   res.render('index', { products });
 });
 
@@ -35,6 +52,17 @@ app.get('/products/:id', async (req, res) => {
 
 app.get('/cart', async (req, res) => {
   res.render('cart');
+});
+
+app.post('/cart', async (req, res) => {
+  const { productId } = req.body;
+  if (!session.cart) {
+    session.cart = [];
+  }
+  if (productId) {
+    session.cart.push(productId);
+  }
+  res.redirect('/');
 });
 
 port = 3000;

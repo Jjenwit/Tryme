@@ -11,7 +11,15 @@
     <div class="col-md-6">
       <h1 class="display-1 mb-2"><%= product.name %></h1>
       <h2 class="display-6 mb-5">฿<%= product.price %></h2>
-      <button class="btn btn-dark btn-lg mb-5">Pre-order</button>
+      <form action="/cart" method="POST">
+        <button
+          class="btn btn-dark btn-lg mb-5"
+          name="productId"
+          value="<%= product._id %>"
+        >
+          Pre-order
+        </button>
+      </form>
       <p class="lead"><%= product.description %></p>
     </div>
   </div>

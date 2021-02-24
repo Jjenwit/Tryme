@@ -36,6 +36,6 @@ body {
 .fixed-card-img {
   object-fit: cover;
   object-position: top;
-  height: auto;
+  height: 400px;
   width: 100%;
 }
