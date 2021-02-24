@@ -20,8 +20,8 @@ body {
 
 .carousel-img {
   object-fit: cover;
-  object-position: top;
-  height: 500px;
+  object-position: 50% 20%;
+  height: 530px;
 }
 
 .full-img {
@@ -31,4 +31,11 @@ body {
 
 .cart {
   margin-top: 0.85rem;
+}
+
+.fixed-card-img {
+  object-fit: cover;
+  object-position: top;
+  height: auto;
+  width: 100%;
 }
