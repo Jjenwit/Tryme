@@ -28,6 +28,10 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  '/splide',
+  express.static(__dirname + '/node_modules/@splidejs/splide/dist/')
+);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

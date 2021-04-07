@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid flex-column">
     <button
       class="navbar-toggler ms-auto"
@@ -30,8 +30,8 @@
         <div class="col-3 text-end mb-2">
           <a class="navbar-brand fs-1" href="/">Tryme</a>
         </div>
-        <div class="col-6 my-auto">
-          <form class="input-group collapse navbar-collapse" id="navLinks">
+        <div class="col-6 my-auto d-none d-md-block">
+          <form class="input-group">
             <input
               class="form-control bg-white"
               type="search"
@@ -43,7 +43,7 @@
             </button>
           </form>
         </div>
-        <div class="col-3 text-center mt-2">
+        <div class="col-3 text-center mt-2 ms-auto">
           <a href="/cart" class="text-decoration-none position-relative">
             <i class="bi bi-bag text-light fs-2"></i>
             <% if(session.cart) { %>
@@ -53,6 +53,21 @@
             </span>
             <% } %>
           </a>
+        </div>
+      </div>
+      <div class="container-fluid mb-2 mt-2">
+        <div class="my-auto d-block d-md-none">
+          <form class="input-group">
+            <input
+              class="form-control bg-white"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-secondary" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
         </div>
       </div>
     </div>
