@@ -44,29 +44,32 @@ body {
   height: 90vh;
 }
 
-.splide__slide {
-  border: 5px white solid;
+.navbar-nav .nav-link {
+  border-bottom: 2px solid transparent;
 }
 
 .navbar-nav .nav-link:hover {
   color: white;
   border-bottom: 2px white solid;
-  padding-top: 5px;
+  padding-top: 3px;
   transition: all 200ms;
 }
 
-#image-slider .splide__slide {
-  transform: scale(0.85);
-}
-
-.cards .card:hover {
+.zoom:hover {
   transform: scale(1.05);
-  box-shadow: 5px 5px 10px rgb(141, 141, 141);
+  box-shadow: 5px 5px 10px rgb(131, 130, 130);
   transition: all 200ms;
 }
 
-#image-slider .splide__slide:hover {
-  transform: scale(0.9);
-  box-shadow: 5px 5px 10px rgb(141, 141, 141);
-  transition: all 200ms;
+.splide__slide.zoom:hover {
+  box-shadow: none;
+}
+
+.icon {
+  color: white;
+}
+
+.icon:hover {
+  color: rgb(37, 186, 212);
+  transition: color 200ms;
 }

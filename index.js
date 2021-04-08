@@ -32,6 +32,12 @@ app.use(
   '/splide',
   express.static(__dirname + '/node_modules/@splidejs/splide/dist/')
 );
+app.use(
+  '/splide-grid',
+  express.static(
+    __dirname + '/node_modules/@splidejs/splide-extension-grid/dist/'
+  )
+);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -42,8 +48,9 @@ app.use(function (req, res, next) {
 
 app.get('/', async (req, res) => {
   const products = await Product.find({});
-  console.log(req.cookies);
-  res.render('index', { products });
+  topProducts = products.slice(20);
+  promotionProducts = products.slice(15);
+  res.render('index', { products, topProducts, promotionProducts });
 });
 
 app.get('/products/:id', async (req, res) => {
