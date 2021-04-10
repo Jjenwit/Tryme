@@ -56,7 +56,8 @@ app.get('/', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
   const product = await Product.findById(id);
-  res.render('details', { product });
+  const relatedProducts = await Product.find({}).limit(20);
+  res.render('details', { product, relatedProducts });
 });
 
 app.get('/cart', async (req, res) => {

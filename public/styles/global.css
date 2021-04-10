@@ -1,9 +1,14 @@
 body {
   background-color: rgb(228, 228, 228);
+  min-height: 150vh;
 }
 
 .nav-bg {
   background-color: rgb(189, 32, 32);
+}
+
+.w-40 {
+  width: 40%;
 }
 
 .w-30 {
@@ -72,4 +77,8 @@ body {
 .icon:hover {
   color: rgb(37, 186, 212);
   transition: color 200ms;
+}
+
+.counter {
+  width: 120px;
 }

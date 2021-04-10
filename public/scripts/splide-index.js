@@ -1,5 +1,6 @@
 new Splide('#image-slider', {
   fixedWidth: 240,
+  perMove: 2,
   rewind: true,
   pagination: false,
   cover: true,
@@ -26,7 +27,7 @@ new Splide('#grid-slider', {
   height: 350,
   perPage: 3,
   cover: true,
-  perMove: 1,
+  perMove: 2,
   gap: 15,
   grid: {
     // You can define rows/cols instead of dimensions.
@@ -35,7 +36,7 @@ new Splide('#grid-slider', {
       [1, 1],
       [2, 2],
     ],
-    gap: { row: 5, col: 15 },
+    gap: { col: 15 },
   },
   breakpoints: {
     576: {
