@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const Product = require('./models/product');
 const session = require('express-session');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(
   })
 );
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   '/splide',
@@ -38,6 +40,7 @@ app.use(
     __dirname + '/node_modules/@splidejs/splide-extension-grid/dist/'
   )
 );
+app.use(methodOverride('_method'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -45,6 +48,34 @@ app.use(function (req, res, next) {
   res.locals.session = session;
   next();
 });
+
+const checkCart = async () => {
+  if (session.cart) {
+    const idInCart = session.cart.map((item) => item.itemDetails._id);
+    const itemsInCartAndDB = await Product.find({ _id: { $in: idInCart } });
+    const idInCartAndDB = itemsInCartAndDB.map((item) => '' + item._id);
+    session.cart = session.cart.filter((item) =>
+      idInCartAndDB.includes('' + item.itemDetails._id)
+    );
+  }
+};
+
+const cartContains = (id, size) => {
+  const itemInCart = session.cart.map((item) => [
+    item.itemDetails._id,
+    item.size,
+  ]);
+  for (let item of itemInCart) {
+    if (item[0] + '' === id + '' && item[1] === size) return true;
+  }
+  return false;
+};
+
+const findItemInCart = (id, size) => {
+  return session.cart.filter(
+    (item) => item.itemDetails._id + '' === id + '' && item.size === size
+  )[0];
+};
 
 app.get('/', async (req, res) => {
   const products = await Product.find({});
@@ -61,18 +92,49 @@ app.get('/products/:id', async (req, res) => {
 });
 
 app.get('/cart', async (req, res) => {
+  checkCart();
   res.render('cart');
 });
 
 app.post('/cart', async (req, res) => {
-  const { productId } = req.body;
+  const { productId, size, qty } = req.body;
   if (!session.cart) {
     session.cart = [];
   }
   if (productId) {
-    session.cart.push(productId);
+    if (cartContains(productId, size)) {
+      const itemInCart = findItemInCart(productId, size);
+      itemInCart.qty = parseInt(itemInCart.qty) + parseInt(qty);
+    } else {
+      const cartItem = {
+        itemDetails: await Product.findById(productId),
+        size,
+        qty: parseInt(qty),
+      };
+      session.cart.push(cartItem);
+    }
   }
   res.redirect('/');
+});
+
+app.patch('/cart', (req, res) => {
+  const { id, size, qty } = req.body;
+  if (session.cart) {
+    if (cartContains(id, size)) {
+      const item = findItemInCart(id, size);
+      item.qty = parseInt(qty);
+    }
+  }
+  res.send('update OK');
+});
+
+app.delete('/cart/:id/:size', (req, res) => {
+  const { id, size } = req.params;
+  if (session.cart)
+    session.cart = session.cart.filter(
+      (item) => !(item.itemDetails._id + '' === id + '' && item.size === size)
+    );
+  res.redirect('/cart');
 });
 
 port = 3000;

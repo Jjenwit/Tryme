@@ -29,7 +29,7 @@
               <ul class="splide__list">
                 <% for(let image of product.images) {%>
                 <li class="splide__slide d-block">
-                  <img src="<%= image %> " alt="" />
+                  <img src="<%= image %>" alt="" />
                 </li>
                 <% } %>
               </ul>
@@ -43,7 +43,7 @@
               <ul class="splide__list">
                 <% for(let image of product.images) {%>
                 <li class="splide__slide d-block">
-                  <img src="<%= image %> " alt="" />
+                  <img src="<%= image %>" alt="" />
                 </li>
                 <% } %>
               </ul>
@@ -69,19 +69,19 @@
 
             <h3 class="display-6 mb-3">Quantity</h3>
 
-            <div class="counter input-group mb-5 rounded-pill">
-              <button class="btn btn-dark" type="button" id="subtract">
-                -
-              </button>
-              <input
-                type="text"
-                class="form-control text-end"
-                placeholder=""
-                id="counter-number"
-                aria-label="Example text with two button addons"
-                value="1"
-              />
-              <button class="btn btn-dark" type="button" id="add">+</button>
+            <div class="mb-5">
+              <div class="counter input-group d-inline-flex rounded-pill">
+                <button class="btn btn-dark" type="button">-</button>
+                <input
+                  type="text"
+                  class="form-control text-end"
+                  placeholder=""
+                  aria-label=""
+                  name="qty"
+                  value="1"
+                />
+                <button class="btn btn-dark" type="button">+</button>
+              </div>
             </div>
 
             <button
@@ -110,7 +110,7 @@
               class="splide__slide my-4 text-dark text-decoration-none d-block zoom"
               href="/products/<%= relatedProduct._id %>"
             >
-              <img src="<%= relatedProduct.images[0] %> " alt="" />
+              <img src="<%= relatedProduct.images[0] %>" alt="" />
             </a>
             <% } %>
           </div>

@@ -33,7 +33,7 @@
               class="splide__slide text-dark text-decoration-none d-block zoom my-2 h-auto"
               href="/products/<%= product._id %>"
             >
-              <img src="<%= product.images[0] %> " alt="" />
+              <img src="<%= product.images[0] %>" alt="" />
             </a>
             <% } %>
           </div>
@@ -50,7 +50,7 @@
               class="splide__slide my-4 text-dark text-decoration-none d-block zoom"
               href="/products/<%= product._id %>"
             >
-              <img src="<%= product.images[0] %> " alt="" />
+              <img src="<%= product.images[0] %>" alt="" />
             </a>
             <% } %>
           </div>
@@ -69,10 +69,7 @@
             href="/products/<%= product._id %>"
             class="card text-dark text-decoration-none d-block zoom"
           >
-            <img
-              src="<%= product.images[0] %> "
-              class="card-img-top p-2 fixed-card-img img-fluid"
-            />
+            <img src="<%= product.images[0] %> " class="p-2 fixed-card-img" />
             <div
               div
               class="card-body d-block d-lg-flex justify-content-between"

@@ -14,13 +14,8 @@
     <div class="collapse navbar-collapse w-100" id="navLinks">
       <div class="navbar-nav">
         <a class="nav-link active" href="/">Home</a>
-        <a class="nav-link" href="#">Promotions</a>
-        <a class="nav-link" href="#">Suggestions</a>
       </div>
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="#"
-          ><i class="bi bi-bell-fill"></i> Notifications</a
-        >
         <a class="nav-link" href="#">Signup</a>
         <a class="nav-link" href="#">Login</a>
       </div>
@@ -44,12 +39,16 @@
           </form>
         </div>
         <div class="col-3 text-center mt-2 ms-auto">
-          <a href="/cart" class="text-decoration-none position-relative">
-            <i class="icon bi bi-bag fs-2"></i>
-            <% if(session.cart) { %>
+          <a
+            href="/cart"
+            class="cart-link text-decoration-none position-relative"
+          >
+            <i class="cart-icon bi bi-bag fs-2"></i>
+            <% if(session.cart && session.cart.length !== 0) { %>
             <span
               class="badge rounded-pill bg-info text-dark position-absolute top-100 start-100 translate-middle"
-              ><%= session.cart.length %>
+            >
+              <%= session.cart.reduce((acc, cur) => acc + cur.qty, 0) %>
             </span>
             <% } %>
           </a>

@@ -20,10 +20,56 @@
   <body>
     <%- include('./partials/navbar.ejs') %>
 
+    <main class="mt-5 row">
+      <div class="col-10 offset-1 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <h1 class="mb-5">Your Cart</h1>
+        <% if(session.cart) for(let item of session.cart) { %>
+        <div class="row cart-item py-5 border-top border-3 border-dark">
+          <div class="col-4">
+            <img src="<%= item.itemDetails.images %>" alt="" class="cart-img" />
+          </div>
+          <div class="col-8">
+            <h2><%= item.itemDetails.name %></h2>
+            <h3 class="text-muted fs-5">Size: <%= item.size %></h3>
+            <div class="pt-3 d-inline-flex">
+              <div
+                class="counter input-group d-inline-flex rounded-pill"
+                id="<%= item.itemDetails._id %>,<%= item.size %>"
+              >
+                <button class="btn btn-dark" type="button">-</button>
+                <input
+                  type="text"
+                  class="form-control text-end"
+                  placeholder=""
+                  aria-label=""
+                  name="qty"
+                  value="<%= item.qty %>"
+                />
+                <button class="btn btn-dark" type="button">+</button>
+              </div>
+            </div>
+            <form
+              action="/cart/<%= item.itemDetails._id %>/<%= item.size %>?_method=DELETE"
+              method="POST"
+              class="d-inline-block"
+            >
+              <button class="btn pe-0">
+                <i class="trash-icon bi bi-trash fs-4"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"
     ></script>
+    <script src="/scripts/cart-counter.js"></script>
+    <script src="/scripts/hideCart.js"></script>
   </body>
 </html>
