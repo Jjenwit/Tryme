@@ -1,5 +1,24 @@
-const counters = document.querySelectorAll('.counter');
+const cartItems = document.querySelectorAll('.cart-item');
+const cartTotal = document.querySelector('#cart-total');
 
+//
+const updateTotalPrice = () => {
+  let total = 0;
+  cartItems.forEach((item) => {
+    const priceText = item.querySelector('.price');
+
+    total += parseInt(priceText.innerText.substring(1));
+  });
+  cartTotal.innerText = '฿' + total;
+};
+//
+
+//
+const cartLink = document.querySelector('.cart-link');
+cartLink.classList.add('d-none');
+//
+
+//
 const minValue = 1;
 
 const checkInvalid = (counterInput, addButton, subtractButton, minValue) => {
@@ -17,12 +36,17 @@ const updateSession = async (id, size, qty) => {
   await axios.patch('/cart', { id, size, qty });
 };
 
-counters.forEach((counter) => {
-  const counterChildren = counter.children;
+const updatePrice = (priceText, counterInput, price) => {
+  priceText.innerText = '฿' + counterInput.value * price;
+};
+
+cartItems.forEach((item) => {
+  const priceText = item.querySelector('.price');
+  const counterChildren = item.querySelector('.counter').children;
   const subtractButton = counterChildren[0];
   const counterInput = counterChildren[1];
   const addButton = counterChildren[2];
-  const [id, size] = counter.id.split(',');
+  const [id, size, price] = item.id.split(',');
 
   checkInvalid(counterInput, addButton, subtractButton, minValue);
 
@@ -30,6 +54,8 @@ counters.forEach((counter) => {
     currentCount = parseInt(counterInput.value);
     counterInput.value = currentCount - 1;
     checkInvalid(counterInput, addButton, subtractButton, minValue);
+    updatePrice(priceText, counterInput, price);
+    updateTotalPrice();
     await updateSession(id, size, counterInput.value);
   });
 
@@ -37,6 +63,8 @@ counters.forEach((counter) => {
     currentCount = parseInt(counterInput.value);
     counterInput.value = currentCount + 1;
     checkInvalid(counterInput, addButton, subtractButton, minValue);
+    updatePrice(priceText, counterInput, price);
+    updateTotalPrice();
     await updateSession(id, size, counterInput.value);
   });
 
@@ -47,6 +75,11 @@ counters.forEach((counter) => {
   counterInput.addEventListener('change', async () => {
     if (!counterInput.value) counterInput.value = 1;
     checkInvalid(counterInput, addButton, subtractButton, minValue);
+    updatePrice(priceText, counterInput, price);
+    updateTotalPrice();
     await updateSession(id, size, counterInput.value);
   });
 });
+//
+
+updateTotalPrice();

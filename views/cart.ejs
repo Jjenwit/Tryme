@@ -4,12 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="/styles/bootstrap-css/bootstrap.min.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"
@@ -21,21 +16,27 @@
     <%- include('./partials/navbar.ejs') %>
 
     <main class="mt-5 row">
-      <div class="col-10 offset-1 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+      <div
+        class="col-10 offset-1 col-md-8 offset-md-2 col-xl-6 offset-xl-3"
+        id="cart"
+      >
         <h1 class="mb-5">Your Cart</h1>
         <% if(session.cart) for(let item of session.cart) { %>
-        <div class="row cart-item py-5 border-top border-3 border-dark">
+        <div
+          class="row cart-item py-5 border-top border-3 border-dark"
+          id="<%= item.itemDetails._id %>,<%= item.size %>,<%= item.itemDetails.price %> "
+        >
           <div class="col-4">
             <img src="<%= item.itemDetails.images %>" alt="" class="cart-img" />
           </div>
           <div class="col-8">
             <h2><%= item.itemDetails.name %></h2>
             <h3 class="text-muted fs-5">Size: <%= item.size %></h3>
-            <div class="pt-3 d-inline-flex">
-              <div
-                class="counter input-group d-inline-flex rounded-pill"
-                id="<%= item.itemDetails._id %>,<%= item.size %>"
-              >
+            <h3 class="price fs-5 mt-3" id="">
+              ฿<%= item.itemDetails.price * item.qty %>
+            </h3>
+            <div class="d-inline-flex">
+              <div class="counter input-group d-inline-flex rounded-pill">
                 <button class="btn btn-dark" type="button">-</button>
                 <input
                   type="text"
@@ -60,16 +61,29 @@
           </div>
         </div>
         <% } %>
+        <div class="row pt-5 border-top border-3 border-dark">
+          <div class="col-4 offset-4">
+            <h3 class="text-end">Total:</h3>
+          </div>
+          <div class="col-4">
+            <h3 class="text-end" id="cart-total">฿0</h3>
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-6 offset-2">
+            <a href="/" class="btn btn-outline-dark btn-lg mb-2 float-end w-100"
+              >Continue Shopping</a
+            >
+          </div>
+          <div class="col-4">
+            <a href="#" class="btn btn-dark btn-lg float-end w-100">CHECKOUT</a>
+          </div>
+        </div>
       </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/scripts/cart-counter.js"></script>
-    <script src="/scripts/hideCart.js"></script>
+    <script src="/scripts/bootstrap-js/bootstrap.min.js"></script>
+    <script src="/scripts/cart.js"></script>
   </body>
 </html>

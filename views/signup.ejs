@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/bootstrap-css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <title>Tryme</title>
+  </head>
+
+  <body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <main class="mt-5 row">
+      <div
+        class="col-8 offset-2 col-md-6 offset-md-3 col-xl-4 offset-xl-4"
+        id="cart"
+      >
+        <div class="bg-white p-4 rounded-3">
+          <h1 class="mb-4 pb-3 border-bottom border-3 border-dark">Register</h1>
+          <form action="/signup" method="POST">
+            <div class="mb-3">
+              <label for="firstname" class="form-label">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstname"
+                name="firstName"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="lastname" class="form-label">Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastname"
+                name="lastName"
+                required
+              />
+            </div>
+            <div class="row mb-3">
+              <div class="col-5">
+                <label for="birthday" class="form-label">Birthday</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birthday"
+                  name="birthday"
+                  required
+                />
+              </div>
+              <div class="col-7">
+                <label for="gender" class="form-label">Gender</label>
+                <select
+                  class="form-select"
+                  name="gender"
+                  id="gender"
+                  required
+                  aria-label=""
+                >
+                  <option selected value="m">Male</option>
+                  <option value="f">Female</option>
+                  <option value="-">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="confirmpassword" class="form-label"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="confirmpassword"
+                required
+              />
+            </div>
+            <div class="mb-5">
+              <label for="tel" class="form-label">Phone Number</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="tel"
+                name="tel"
+                required
+              />
+            </div>
+            <button class="btn btn-dark w-100 btn-lg">Submit</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="/scripts/bootstrap-js/bootstrap.min.js"></script>
+  </body>
+</html>

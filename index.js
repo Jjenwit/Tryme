@@ -137,6 +137,14 @@ app.delete('/cart/:id/:size', (req, res) => {
   res.redirect('/cart');
 });
 
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+app.post('/signup', (req, res) => {
+  res.redirect('/');
+});
+
 port = 3000;
 app.listen(port, () => {
   console.log(`app listening at http://localhost:${port}`);
