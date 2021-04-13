@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const Product = require('./models/product');
+const Account = require('./models/account');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
@@ -142,6 +143,27 @@ app.get('/signup', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
+  const {
+    firstName,
+    lastName,
+    birthday,
+    gender,
+    email,
+    password,
+    tel,
+  } = req.body;
+
+  const newAccount = new Account({
+    firstName,
+    lastName,
+    birthday,
+    gender,
+    email,
+    password,
+    tel,
+  });
+  newAccount.save();
+
   res.redirect('/');
 });
 
