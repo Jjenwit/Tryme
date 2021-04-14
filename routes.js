@@ -56,7 +56,7 @@ router.get('/products/:id', async (req, res) => {
   res.render('details', { product, relatedProducts });
 });
 
-router.get('/cart', isLoggedIn, async (req, res) => {
+router.get('/cart', async (req, res) => {
   checkCart();
   res.render('cart');
 });
