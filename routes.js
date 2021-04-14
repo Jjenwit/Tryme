@@ -93,8 +93,8 @@ router.patch('/cart', (req, res) => {
   res.send('update OK');
 });
 
-router.delete('/cart/:id/:size', (req, res) => {
-  const { id, size } = req.params;
+router.delete('/cart', (req, res) => {
+  const { id, size } = req.query;
   if (session.cart)
     session.cart = session.cart.filter(
       (item) => !(item.itemDetails._id + '' === id + '' && item.size === size)

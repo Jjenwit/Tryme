@@ -50,7 +50,7 @@
               </div>
             </div>
             <form
-              action="/cart/<%= item.itemDetails._id %>/<%= item.size %>?_method=DELETE"
+              action="/cart?id=<%= item.itemDetails._id %>&size=<%= item.size %>&_method=DELETE"
               method="POST"
               class="d-inline-block"
             >
