@@ -14,7 +14,9 @@
   </head>
 
   <body>
-    <%- include('./partials/navbar.ejs') %>
+    <%- include('./partials/navbar.ejs') %> <% if(message.length > 0) { %>
+    <div class="alert alert-danger" role="alert"><%= message %></div>
+    <% } %>
 
     <main class="mt-5 row mb-5">
       <div
@@ -44,31 +46,29 @@
                 required
               />
             </div>
-            <div class="row mb-3">
-              <div class="col-5">
-                <label for="birthday" class="form-label">Birthday</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="birthday"
-                  name="birthday"
-                  required
-                />
-              </div>
-              <div class="col-7">
-                <label for="gender" class="form-label">Gender</label>
-                <select
-                  class="form-select"
-                  name="gender"
-                  id="gender"
-                  required
-                  aria-label=""
-                >
-                  <option selected value="m">Male</option>
-                  <option value="f">Female</option>
-                  <option value="-">Prefer not to say</option>
-                </select>
-              </div>
+            <div class="mb-3">
+              <label for="birthday" class="form-label">Birthday</label>
+              <input
+                type="date"
+                class="form-control w-50"
+                id="birthday"
+                name="birthday"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <select
+                class="form-select w-50"
+                name="gender"
+                id="gender"
+                required
+                aria-label=""
+              >
+                <option selected value="m">Male</option>
+                <option value="f">Female</option>
+                <option value="-">Prefer not to say</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
