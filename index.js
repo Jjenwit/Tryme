@@ -6,14 +6,12 @@ const Product = require('./models/product');
 const Account = require('./models/account');
 
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
 const path = require('path');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const account = require('./models/account');
 
 //initialize
 const app = express();

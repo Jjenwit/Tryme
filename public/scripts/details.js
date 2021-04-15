@@ -20,7 +20,7 @@ axios
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      // Display the result in the element with id="demo"
+      // Display the result in the element with class = "timer"
       timer.innerText =
         days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
 
@@ -33,5 +33,5 @@ axios
     // Update the count down every 1 second
   })
   .catch((e) => {
-    caonsole.log(e);
+    console.log(e);
   });
