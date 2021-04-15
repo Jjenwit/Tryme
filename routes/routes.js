@@ -6,30 +6,27 @@ const Product = require('../models/product');
 const Account = require('../models/account');
 
 //functions
-const checkCart = async () => {
-  if (req.session.cart) {
-    const idInCart = req.session.cart.map((item) => item.itemDetails._id);
+const checkCart = async (cart) => {
+  if (cart) {
+    const idInCart = cart.map((item) => item.itemDetails._id);
     const itemsInCartAndDB = await Product.find({ _id: { $in: idInCart } });
     const idInCartAndDB = itemsInCartAndDB.map((item) => '' + item._id);
-    req.session.cart = req.session.cart.filter((item) =>
+    cart = cart.filter((item) =>
       idInCartAndDB.includes('' + item.itemDetails._id)
     );
   }
 };
 
-const cartContains = (id, size) => {
-  const itemInCart = req.session.cart.map((item) => [
-    item.itemDetails._id,
-    item.size,
-  ]);
+const cartContains = (cart, id, size) => {
+  const itemInCart = cart.map((item) => [item.itemDetails._id, item.size]);
   for (let item of itemInCart) {
     if (item[0] + '' === id + '' && item[1] === size) return true;
   }
   return false;
 };
 
-const findItemInCart = (id, size) => {
-  return req.session.cart.filter(
+const findItemInCart = (cart, id, size) => {
+  return cart.filter(
     (item) => item.itemDetails._id + '' === id + '' && item.size === size
   )[0];
 };
@@ -57,13 +54,12 @@ router.get('/', async (req, res) => {
 router.get('/products/:id', async (req, res) => {
   const { id } = req.params;
   const product = await Product.findById(id).populate('seller');
-  console.log(product);
   const relatedProducts = await Product.find({}).limit(20);
   res.render('details', { product, relatedProducts });
 });
 
 router.get('/cart', async (req, res) => {
-  checkCart();
+  checkCart(req.session.cart);
   res.render('cart');
 });
 
@@ -73,8 +69,8 @@ router.post('/cart', async (req, res) => {
     req.session.cart = [];
   }
   if (productId) {
-    if (cartContains(productId, size)) {
-      const itemInCart = findItemInCart(productId, size);
+    if (cartContains(req.session.cart, productId, size)) {
+      const itemInCart = findItemInCart(req.session.cart, productId, size);
       itemInCart.qty = parseInt(itemInCart.qty) + parseInt(qty);
     } else {
       const cartItem = {
@@ -91,8 +87,8 @@ router.post('/cart', async (req, res) => {
 router.patch('/cart', (req, res) => {
   const { id, size, qty } = req.body;
   if (req.session.cart) {
-    if (cartContains(id, size)) {
-      const item = findItemInCart(id, size);
+    if (cartContains(req.session.cart, id, size)) {
+      const item = findItemInCart(req.session.cart, id, size);
       item.qty = parseInt(qty);
     }
   }
