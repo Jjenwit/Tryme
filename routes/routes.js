@@ -2,8 +2,8 @@ const router = require('express').Router();
 const session = require('express-session');
 const passport = require('passport');
 
-const Product = require('./models/product');
-const Account = require('./models/account');
+const Product = require('../models/product');
+const Account = require('../models/account');
 
 //functions
 const checkCart = async () => {
@@ -34,6 +34,11 @@ const findItemInCart = (id, size) => {
   )[0];
 };
 
+const getUnexpiredProducts = async () => {
+  const products = await Product.find({ expireDate: { $gte: Date.now() } });
+  return products;
+};
+
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -43,7 +48,7 @@ const isLoggedIn = (req, res, next) => {
 //
 
 router.get('/', async (req, res) => {
-  const products = await Product.find({});
+  const products = await getUnexpiredProducts();
   topProducts = products.slice(20);
   promotionProducts = products.slice(15);
   res.render('index', { products, topProducts, promotionProducts });

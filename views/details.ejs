@@ -49,8 +49,10 @@
         <div class="col-md-4 offset-lg-1 mt-4 mt-md-0">
           <form action="/cart" method="POST">
             <h1 class="display-1 mb-2"><%= product.name %></h1>
+            <h2 class="display-6 mb-5 timer" id="<%= product._id %>"></h2>
             <h2 class="display-6 mb-5">฿<%= product.price %></h2>
             <h3 class="display-6 mb-3">Size</h3>
+
             <div class="mb-5">
               <% for(let i = 0; i < product.sizes.length; i++) { %> <input
               type="radio" class="btn-check" name="size" id="size<%= i %>"
@@ -115,7 +117,9 @@
 
     <script src="/splide/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-grid@0.1.2/dist/js/splide-extension-grid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/scripts/counter.js"></script>
+    <script src="/scripts/details.js"></script>
     <script src="/scripts/splide-details.js"></script>
     <script src="/scripts/bootstrap-js/bootstrap.min.js"></script>
   </body>

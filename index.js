@@ -66,7 +66,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/', require('./routes'));
+app.use('/', require('./routes/routes'));
+app.use('/', require('./routes/JSONroutes'));
 
 // app.use(function (req, res, next) {
 //   const err = new Error('Not Found');

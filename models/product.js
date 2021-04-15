@@ -6,9 +6,11 @@ productSchema = new Schema(
     name: String,
     images: [String],
     description: String,
-    price: Number,
     sizes: [String],
-    seller: { type: Schema.Types.ObjectId, ref: 'accounts' },
+    price: Number,
+    salesDate: Date,
+    expireDate: Date,
+    seller: { type: Schema.Types.ObjectId, ref: 'Account' },
   },
   {
     timestamps: true,
