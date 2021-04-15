@@ -57,6 +57,7 @@ router.get('/', async (req, res) => {
 
 router.get('/search', async (req, res) => {
   const { q } = req.query;
+  if (!q) res.redirect('/');
   const products = await getUnexpiredProducts({
     $text: { $search: q },
   });
