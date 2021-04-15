@@ -4,6 +4,7 @@ const verticalSecondarySlider = new Splide('#vertical-secondary-slider', {
   gap: 10,
   cover: true,
   direction: 'ttb',
+  arrows: false,
   isNavigation: true,
   focus: 'center',
   pagination: false,

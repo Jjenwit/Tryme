@@ -60,7 +60,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 app.use(function (req, res, next) {
-  res.locals.session = session;
+  res.locals.session = req.session;
   next();
 });
 

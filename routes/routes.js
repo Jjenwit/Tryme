@@ -7,18 +7,18 @@ const Account = require('../models/account');
 
 //functions
 const checkCart = async () => {
-  if (session.cart) {
-    const idInCart = session.cart.map((item) => item.itemDetails._id);
+  if (req.session.cart) {
+    const idInCart = req.session.cart.map((item) => item.itemDetails._id);
     const itemsInCartAndDB = await Product.find({ _id: { $in: idInCart } });
     const idInCartAndDB = itemsInCartAndDB.map((item) => '' + item._id);
-    session.cart = session.cart.filter((item) =>
+    req.session.cart = req.session.cart.filter((item) =>
       idInCartAndDB.includes('' + item.itemDetails._id)
     );
   }
 };
 
 const cartContains = (id, size) => {
-  const itemInCart = session.cart.map((item) => [
+  const itemInCart = req.session.cart.map((item) => [
     item.itemDetails._id,
     item.size,
   ]);
@@ -29,7 +29,7 @@ const cartContains = (id, size) => {
 };
 
 const findItemInCart = (id, size) => {
-  return session.cart.filter(
+  return req.session.cart.filter(
     (item) => item.itemDetails._id + '' === id + '' && item.size === size
   )[0];
 };
@@ -69,8 +69,8 @@ router.get('/cart', async (req, res) => {
 
 router.post('/cart', async (req, res) => {
   const { productId, size, qty } = req.body;
-  if (!session.cart) {
-    session.cart = [];
+  if (!req.session.cart) {
+    req.session.cart = [];
   }
   if (productId) {
     if (cartContains(productId, size)) {
@@ -82,7 +82,7 @@ router.post('/cart', async (req, res) => {
         size,
         qty: parseInt(qty),
       };
-      session.cart.push(cartItem);
+      req.session.cart.push(cartItem);
     }
   }
   res.redirect('/');
@@ -90,7 +90,7 @@ router.post('/cart', async (req, res) => {
 
 router.patch('/cart', (req, res) => {
   const { id, size, qty } = req.body;
-  if (session.cart) {
+  if (req.session.cart) {
     if (cartContains(id, size)) {
       const item = findItemInCart(id, size);
       item.qty = parseInt(qty);
@@ -101,8 +101,8 @@ router.patch('/cart', (req, res) => {
 
 router.delete('/cart', (req, res) => {
   const { id, size } = req.query;
-  if (session.cart)
-    session.cart = session.cart.filter(
+  if (req.session.cart)
+    req.session.cart = req.session.cart.filter(
       (item) => !(item.itemDetails._id + '' === id + '' && item.size === size)
     );
   res.redirect('/cart');
@@ -139,7 +139,7 @@ router.post('/signup', (req, res) => {
     }
 
     passport.authenticate('local')(req, res, function () {
-      session.user = req.user;
+      req.session.user = req.user;
       res.redirect('/');
     });
   });
@@ -156,14 +156,14 @@ router.post(
     failureFlash: true,
   }),
   function (req, res) {
-    session.user = req.user;
+    req.session.user = req.user;
     res.redirect('/');
   }
 );
 
 router.get('/logout', function (req, res) {
   req.logout();
-  session.user = null;
+  req.session.user = null;
   res.redirect('/');
 });
 
