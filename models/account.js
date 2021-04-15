@@ -19,6 +19,11 @@ accountSchema = new Schema(
   }
 );
 
+const virtual = accountSchema.virtual('fullName');
+virtual.get(function (value, virtual, doc) {
+  return this.firstName + ' ' + this.lastName;
+});
+
 accountSchema.plugin(passportLocalMongoose, {
   usernameField: 'email',
   errorMessages: {

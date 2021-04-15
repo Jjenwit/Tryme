@@ -56,7 +56,8 @@ router.get('/', async (req, res) => {
 
 router.get('/products/:id', async (req, res) => {
   const { id } = req.params;
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate('seller');
+  console.log(product);
   const relatedProducts = await Product.find({}).limit(20);
   res.render('details', { product, relatedProducts });
 });
