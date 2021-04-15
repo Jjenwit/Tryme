@@ -40,6 +40,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
+  req.session.savedPath = req.path;
   res.redirect('/login');
 };
 //
@@ -136,6 +137,11 @@ router.post('/signup', (req, res) => {
 
     passport.authenticate('local')(req, res, function () {
       req.session.user = req.user;
+      if (req.session.savedPath) {
+        const savedPath = req.session.savedPath;
+        req.session.savedPath = null;
+        res.redirect(savedPath);
+      }
       res.redirect('/');
     });
   });
@@ -153,6 +159,11 @@ router.post(
   }),
   function (req, res) {
     req.session.user = req.user;
+    if (req.session.savedPath) {
+      const savedPath = req.session.savedPath;
+      req.session.savedPath = null;
+      res.redirect(savedPath);
+    }
     res.redirect('/');
   }
 );
