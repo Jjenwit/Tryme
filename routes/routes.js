@@ -31,8 +31,11 @@ const findItemInCart = (cart, id, size) => {
   )[0];
 };
 
-const getUnexpiredProducts = async () => {
-  const products = await Product.find({ expireDate: { $gte: Date.now() } });
+const getUnexpiredProducts = async (query) => {
+  const products = await Product.find({
+    expireDate: { $gte: Date.now() },
+    ...query,
+  });
   return products;
 };
 
@@ -46,10 +49,18 @@ const isLoggedIn = (req, res, next) => {
 //
 
 router.get('/', async (req, res) => {
-  const products = await getUnexpiredProducts();
+  const products = await getUnexpiredProducts({});
   topProducts = products.slice(20);
   promotionProducts = products.slice(15);
   res.render('index', { products, topProducts, promotionProducts });
+});
+
+router.get('/search', async (req, res) => {
+  const { q } = req.query;
+  const products = await getUnexpiredProducts({
+    $text: { $search: q },
+  });
+  res.render('search', { products });
 });
 
 router.get('/products/:id', async (req, res) => {
