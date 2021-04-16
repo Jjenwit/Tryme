@@ -39,7 +39,7 @@ body {
   transition: color 200ms;
 }
 
-.trach-button:focus {
+.trash-button:focus {
   box-shadow: none;
 }
 
@@ -50,6 +50,10 @@ body {
 .trash-icon:hover {
   color: rgb(37, 186, 212);
   transition: color 200ms;
+}
+
+.plus-icon {
+  font-size: 80px;
 }
 
 .fixed-card-img {
@@ -90,5 +94,14 @@ body {
   height: 24vh;
   background: transparent;
   border: 4px black solid;
+  border-radius: 7px;
+}
+
+.account-product-img {
+  object-fit: contain;
+  width: 100%;
+  height: 24vh;
+  background: transparent;
+  border: 3px rgb(0, 0, 0) solid;
   border-radius: 7px;
 }

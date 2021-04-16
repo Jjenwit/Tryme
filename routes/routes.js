@@ -117,6 +117,26 @@ router.delete('/cart', (req, res) => {
   res.redirect('/cart');
 });
 
+router.get('/account', isLoggedIn, async (req, res) => {
+  const account = await Account.findById(req.session.account._id);
+  const products = await Product.find({ seller: req.session.account._id });
+  res.render('account', { account, products });
+});
+
+router.patch('/account', isLoggedIn, async (req, res) => {
+  const { email, firstName, lastName, birthday, gender, tel } = req.body;
+  let account = await Account.findById(req.session.account._id);
+  account.email = email;
+  account.firstName = firstName;
+  account.lastName = lastName;
+  account.birthday = birthday;
+  account.gender = gender;
+  account.tel = tel;
+  req.session.account = account;
+  await account.save();
+  res.redirect('/account');
+});
+
 router.get('/signup', (req, res) => {
   res.render('signup', { message: req.flash('error') });
 });
@@ -148,11 +168,11 @@ router.post('/signup', (req, res) => {
     }
 
     passport.authenticate('local')(req, res, function () {
-      req.session.user = req.user;
+      req.session.account = req.user;
       if (req.session.savedPath) {
         const savedPath = req.session.savedPath;
         req.session.savedPath = null;
-        res.redirect(savedPath);
+        return res.redirect(savedPath);
       }
       res.redirect('/');
     });
@@ -170,11 +190,11 @@ router.post(
     failureFlash: true,
   }),
   function (req, res) {
-    req.session.user = req.user;
+    req.session.account = req.user;
     if (req.session.savedPath) {
       const savedPath = req.session.savedPath;
       req.session.savedPath = null;
-      res.redirect(savedPath);
+      return res.redirect(savedPath);
     }
     res.redirect('/');
   }
@@ -182,7 +202,7 @@ router.post(
 
 router.get('/logout', function (req, res) {
   req.logout();
-  req.session.user = null;
+  req.session.account = null;
   res.redirect('/');
 });
 
