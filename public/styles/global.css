@@ -56,7 +56,7 @@ body {
   font-size: 80px;
 }
 
-.fixed-card-img {
+.card-img {
   object-fit: cover;
   object-position: top;
   height: 40vh;

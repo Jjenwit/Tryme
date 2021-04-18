@@ -9,7 +9,6 @@ productSchema = new Schema(
     sizes: [String],
     price: Number,
     preOrdered: Number,
-    salesDate: Date,
     expireDate: Date,
     seller: { type: Schema.Types.ObjectId, ref: 'Account' },
   },

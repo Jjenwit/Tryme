@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const session = require('express-session');
 
@@ -61,7 +65,7 @@ passport.use(Account.createStrategy());
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-app.use(function (req, res, next) {
+app.use(async function (req, res, next) {
   res.locals.session = req.session;
   next();
 });

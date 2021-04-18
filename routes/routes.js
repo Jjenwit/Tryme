@@ -1,9 +1,32 @@
 const router = require('express').Router();
 const session = require('express-session');
 const passport = require('passport');
+const multer = require('multer');
+const multers3 = require('multer-s3');
+const AWS = require('aws-sdk');
 
 const Product = require('../models/product');
 const Account = require('../models/account');
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.S3_KEY,
+  secretAccessKey: process.env.S3_SECRET,
+});
+
+const uploadS3 = multer({
+  storage: multers3({
+    s3: s3,
+    acl: 'public-read',
+    bucket: 'tryme-test-storage',
+    serverSideEncryption: 'AES256',
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: (req, file, cb) => {
+      cb(null, Date.now().toString() + '-' + file.originalname);
+    },
+  }),
+});
 
 //functions
 const checkCart = async (cart) => {
@@ -31,11 +54,15 @@ const findItemInCart = (cart, id, size) => {
   )[0];
 };
 
-const getUnexpiredProducts = async (query) => {
+const getUnexpiredProducts = async (query, skip, limit, sortOptions) => {
   const products = await Product.find({
     expireDate: { $gte: Date.now() },
     ...query,
-  });
+  })
+    .sort(sortOptions)
+    .skip(skip)
+    .limit(limit);
+
   return products;
 };
 
@@ -49,7 +76,7 @@ const isLoggedIn = (req, res, next) => {
 //
 
 router.get('/', async (req, res) => {
-  const products = await getUnexpiredProducts({});
+  const products = await getUnexpiredProducts({}, 0, 50, { preOrdered: 1 });
   topProducts = products.slice(20);
   promotionProducts = products.slice(15);
   res.render('index', { products, topProducts, promotionProducts });
@@ -58,10 +85,16 @@ router.get('/', async (req, res) => {
 router.get('/search', async (req, res) => {
   const { q } = req.query;
   if (!q) res.redirect('/');
-  const products = await getUnexpiredProducts({
-    $text: { $search: q },
-  });
-  res.render('search', { products });
+  const products = await getUnexpiredProducts(
+    {
+      $text: { $search: q },
+    },
+    0,
+    50,
+    { preOrdered: 1 }
+  );
+
+  res.render('search', { products, q });
 });
 
 router.get('/products/:id', async (req, res) => {
@@ -134,6 +167,37 @@ router.patch('/account', isLoggedIn, async (req, res) => {
   account.tel = tel;
   req.session.account = account;
   await account.save();
+  res.redirect('/account');
+});
+
+router.get('/add', isLoggedIn, (req, res) => {
+  res.render('add');
+});
+
+router.post('/add', isLoggedIn, uploadS3.array('files'), async (req, res) => {
+  const { name, description, price, size, duration } = req.body;
+
+  const sizes = Object.keys(size).filter((k) => {
+    return size[k] === 'on';
+  });
+
+  const images = req.files.map((image) => {
+    return image.location;
+  });
+
+  const newProduct = new Product({
+    name,
+    description,
+    images,
+    price,
+    sizes,
+    preOrdered: 0,
+    expireDate: Date.now() + duration * 604800000,
+    seller: req.session.account._id,
+  });
+
+  await newProduct.save();
+
   res.redirect('/account');
 });
 

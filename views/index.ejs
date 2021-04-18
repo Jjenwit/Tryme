@@ -56,7 +56,7 @@
     <main class="container">
       <h2 class="mb-4 pt-3 fs-1 text-center">Discover</h2>
 
-      <div class="cards row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <div class="cards row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
         <% for(let product of products) { %>
 
         <div class="col mb-3">
@@ -64,26 +64,30 @@
             href="/products/<%= product._id %>"
             class="card text-dark text-decoration-none d-block zoom"
           >
-            <img src="<%= product.images[0] %> " class="p-2 fixed-card-img" />
-            <div
-              div
-              class="card-body d-block d-lg-flex justify-content-between"
-            >
+            <img src="<%= product.images[0] %> " class="card-img p-2" />
+            <div class="card-body d-block d-lg-flex justify-content-between">
               <h5 class="card-title text-decoration-none">
                 <%= product.name %>
               </h5>
-              <h5 class="display-6 fs-5">฿<%= product.price %></h5>
+              <h5 class="card-price display-6 fs-5">฿<%= product.price %></h5>
             </div>
           </a>
         </div>
 
         <% } %>
       </div>
+      <div class="text-center">
+        <button class="btn btn-outline-dark rounded-pill mb-5" id="loader">
+          Load More
+        </button>
+      </div>
     </main>
 
     <script src="/splide/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-grid@0.1.2/dist/js/splide-extension-grid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/scripts/splide-index.js"></script>
     <script src="/scripts/bootstrap-js/bootstrap.min.js"></script>
+    <script src="/scripts/loadProducts.js"></script>
   </body>
 </html>
